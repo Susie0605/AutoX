@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.stardust.app.GlobalAppContext;
 import com.stardust.autojs.R;
+import com.stardust.autojs.BuildConfig;
 import com.stardust.autojs.ScriptEngineService;
 import com.stardust.autojs.annotation.ScriptVariable;
 import com.stardust.autojs.core.accessibility.AccessibilityBridge;
@@ -42,6 +43,7 @@ import com.stardust.autojs.runtime.api.UI;
 import com.stardust.autojs.runtime.exception.ScriptEnvironmentException;
 import com.stardust.autojs.runtime.exception.ScriptException;
 import com.stardust.autojs.runtime.exception.ScriptInterruptedException;
+import com.stardust.autojs.util.ObjectWatcher;
 import com.stardust.concurrent.VolatileDispose;
 import com.stardust.lang.ThreadCompat;
 import com.stardust.pio.UncheckedIOException;
@@ -65,8 +67,6 @@ import java.io.StringWriter;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import leakcanary.AppWatcher;
 
 
 /**
@@ -437,10 +437,13 @@ public class ScriptRuntime {
         ignoresException(timers::recycle);
         ignoresException(ui::recycle);
 //        ignoresException(paddle::release);
-
-        //引用检查
-        AppWatcher.INSTANCE.getObjectWatcher().expectWeaklyReachable(this,
-                engines.myEngine().toString() + "::" + TAG);
+         ObjectWatcher.Companion.getDefault().watch(this, engines.myEngine().toString() + "::" + TAG);
+        if(BuildConfig.DEBUG){
+            //引用检查
+            // release 状态不启用监听
+            // AppWatcher.INSTANCE.getObjectWatcher().expectWeaklyReachable(this,
+            //         engines.myEngine().toString() + "::" + TAG);
+        }
     }
 
     private void ignoresException(Runnable r) {
