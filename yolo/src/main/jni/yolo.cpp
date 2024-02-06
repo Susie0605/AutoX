@@ -131,7 +131,7 @@ generate_grids_and_stride(const int target_w, const int target_h, std::vector<in
 static void generate_proposals(std::vector<GridAndStride> grid_strides, const ncnn::Mat &pred,
                                float prob_threshold, std::vector<Object> &objects) {
     const int num_points = grid_strides.size();
-    const int num_class = 80;
+    const int num_class = sizeof(class_names) / sizeof(class_names[0]);
     const int reg_max_1 = 16;
 
     for (int i = 0; i < num_points; i++) {
