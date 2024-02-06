@@ -112,7 +112,7 @@ class ScreenCapturer(
         }.getOrElse {
             it.printStackTrace()
             available = false
-            throw Exception("ScreenCapturer timeout")
+            throw Exception("ScreenCapture timeout")
         }
         val newImageWrapper = ImageWrapper.ofImage(newImage)
         mCachedImageWrapper.set(newImageWrapper)

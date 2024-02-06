@@ -31,7 +31,7 @@ android {
     compileSdk = versions.compile
     defaultConfig {
         applicationId = "org.autojs.autoxjs"
-        minSdk = versions.mini
+        minSdk = 24
         targetSdk = versions.target
         versionCode = versions.appVersionCode
         versionName = versions.appVersionName
@@ -269,6 +269,7 @@ dependencies {
     implementation(project(":autojs"))
     implementation(project(":apkbuilder"))
     implementation(project(":codeeditor"))
+    implementation(project(":yolo"))
     implementation("androidx.multidex:multidex:2.0.1")
 
     val lifecycle_version = "2.5.1"
